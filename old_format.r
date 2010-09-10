@@ -13,11 +13,11 @@ png("currency_barchart.png")
 plot(sales["Customer.Currency"], main="Currency by Sales")
 dev.off()
 
-png("sale_count_barchart.png")
+png("dls_count_barchart.png")
 plot(sales["End.Date"], main="Downloads by Day")
 dev.off()
 
-png("sale_count_linechart.png")
+png("dls_count_linechart.png")
 plot(table(sales["End.Date"]),
      main="Downloads by Day",
      xlab="Date",
