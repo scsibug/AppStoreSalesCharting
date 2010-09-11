@@ -1,0 +1,17 @@
+Provider	Provider Country	SKU	Developer	Title	Version	Product Type Identifier	Units	Developer Proceeds	Begin Date	End Date	Customer Currency	Country Code	Currency of Proceeds	Apple Identifier	Customer Price	Promo Code	Parent Identifier
+APPLE	US	MySampleApp	Greg Heartsfield	AppGrapher	1.0	1F	4	0	08/23/2010          	08/29/2010          	USD	US	USD	99999	0	CR-RW	
+APPLE	US	MySampleApp	Greg Heartsfield	AppGrapher	1.0	1F	7	2.1	08/23/2010          	08/29/2010          	USD	US	USD	99999	2.99	 	
+APPLE	US	MySampleApp	Greg Heartsfield	AppGrapher	1.0	1F	1	1.09	08/23/2010          	08/29/2010          	GBP	GB	GBP	99999	1.79	 	
+APPLE	US	MySampleApp	Greg Heartsfield	AppGrapher	1.0	1F	1	1.45	08/23/2010          	08/29/2010          	EUR	FR	EUR	99999	2.39	 	
+APPLE	US	MySampleApp	Greg Heartsfield	AppGrapher	1.0	1F	1	2.1	08/23/2010          	08/29/2010          	USD	SG	USD	99999	2.99	 	
+APPLE	US	MySampleApp	Greg Heartsfield	AppGrapher	1.0	1F	2	2.54	08/23/2010          	08/29/2010          	AUD	AU	AUD	99999	3.99	 	
+APPLE	US	MySampleApp	Greg Heartsfield	AppGrapher	1.0	1F	1	0	08/30/2010          	09/05/2010          	USD	US	USD	99999	0	CR-RW	
+APPLE	US	MySampleApp	Greg Heartsfield	AppGrapher	1.0	1F	17	2.1	08/30/2010          	09/05/2010          	USD	US	USD	99999	2.99	 	
+APPLE	US	MySampleApp	Greg Heartsfield	AppGrapher	1.0	1F	7	1.09	08/30/2010          	09/05/2010          	GBP	GB	GBP	99999	1.79	 	
+APPLE	US	MySampleApp	Greg Heartsfield	AppGrapher	1.0	1F	8	2.54	08/30/2010          	09/05/2010          	AUD	AU	AUD	99999	3.99	 	
+APPLE	US	MySampleApp	Greg Heartsfield	AppGrapher	1.0	1F	1	2.1	08/30/2010          	09/05/2010          	CAD	CA	CAD	99999	2.99	 	
+APPLE	US	MySampleApp	Greg Heartsfield	AppGrapher	1.0	1F	1	1.45	08/30/2010          	09/05/2010          	SEK	SE	EUR	99999	22	 	
+APPLE	US	MySampleApp	Greg Heartsfield	AppGrapher	1.0	1F	1	245	08/30/2010          	09/05/2010          	JPY	JP	JPY	99999	350	 	
+APPLE	US	MySampleApp	Greg Heartsfield	AppGrapher	1.0	1F	3	1.45	08/30/2010          	09/05/2010          	EUR	NL	EUR	99999	2.39	 	
+APPLE	US	MySampleApp	Greg Heartsfield	AppGrapher	1.0	1F	2	2.54	08/30/2010          	09/05/2010          	NZD	NZ	AUD	99999	4.19	 	
+APPLE	US	MySampleApp	Greg Heartsfield	AppGrapher	1.0	1F	1	1.45	08/30/2010          	09/05/2010          	EUR	BE	EUR	99999	2.39	 	e
