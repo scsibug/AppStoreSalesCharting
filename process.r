@@ -56,7 +56,7 @@ countries_by_time$Cf <- as.numeric(countries_by_time$Country)
 ncountries <- max(countries_by_time$Cf)
 colors <- rainbow(ncountries)
 linetype <- c(1:ncountries)
-plotchar <- seq(18,18+ncountries,1)
+plotchar <- seq(18,18+ncountries,1)%%26
 countrylabels <- vector(mode="list")
 #find largest cumsum unit for a country:
 max_y <- 0
@@ -78,26 +78,35 @@ title("cumulative sales by period ending date, grouped by country")
 legend(xrange[1],yrange[2], countrylabels, cex=0.8, col=colors, pch=plotchar, lty=linetype, title="Country")
 dev.off()
 
-# Sales by period-ending-date, grouped by currency.
+# Cumulative ales by period-ending-date, grouped by currency.
 # Grouped either weekly or daily based on the original data provided.
 currency_by_time <- aggregate(s_all$Units,FUN=sum,by=list(s_all$Currency,s_all$End.Date))
 colnames(currency_by_time) <- c("Currency", "End.Date", "Units")
-xrange <- range(currency_by_time$End.Date)
-yrange <- range(currency_by_time$Units)
-png("currency_linechart.png", width=defaultChartDim, height=defaultChartDim)
-plot(xrange, yrange, type="n", ylab="Units", xlab="Period End Date")
+
+
 currency_by_time$Cf <- as.numeric(currency_by_time$Currency)
 ncurrencies <- max(currency_by_time$Cf)
 colors <- rainbow(ncurrencies)
 linetype <- c(1:ncurrencies)
-plotchar <- seq(18,18+ncurrencies,1)
+plotchar <- seq(18,18+ncurrencies,1)%%26
 currlabels <- vector(mode="list")
+#find largest cumsum unit for a country:
+max_y <- 0
+for (i in 1:ncurrencies) {
+  currency <- subset(currency_by_time, Cf==i)
+  csum <- sum(currency$Units)
+  if (csum > max_y) {max_y <- csum}
+}
+xrange <- range(currency_by_time$End.Date)
+yrange <- range(c(0,max_y))
+png("currency_linechart.png", width=defaultChartDim, height=defaultChartDim)
+plot(xrange, yrange, type="n", ylab="Units", xlab="Period End Date")
 for (i in 1:ncurrencies) {
   currency <- subset(currency_by_time, Cf==i)
   currlabels <- append(currlabels, toString(currency$Currency[1]))
-  lines(currency$End.Date, currency$Units,type="b", lwd=1.5,lty=linetype[i],col=colors[i],pch=plotchar[i])
+  lines(currency$End.Date, cumsum(currency$Units),type="b", lwd=1.5,lty=linetype[i],col=colors[i],pch=plotchar[i])
 }
-title("Sales by period ending date, grouped by currency")
+title("Cumulative sales by period ending date, grouped by currency")
 legend(xrange[1],yrange[2], currlabels, cex=0.8, col=colors, pch=plotchar, lty=linetype, title="Currency")
 
 dev.off()
