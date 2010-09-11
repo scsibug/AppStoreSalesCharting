@@ -13,6 +13,6 @@ pie(sale_currencies$Count, labels=sale_currencies$Currency,main="Sales by Curren
 dev.off()
 
 png("country_piechart.png")
-pie(sale_currencies$Count, labels=sale_currencies$Currency,main="Sales by Country")
+pie(sale_countries$Count, labels=sale_countries$Country,main="Sales by Country")
 dev.off()
 
