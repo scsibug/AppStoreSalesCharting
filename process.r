@@ -8,11 +8,11 @@ colnames(sale_countries) <- c("Country", "Count")
 
 # Pie chart of currencies & countries
 
-png("currency_piechart.png")
+png("currency_piechart.png", width=600, height=600)
 pie(sale_currencies$Count, labels=sale_currencies$Currency,main="Sales by Currency")
 dev.off()
 
-png("country_piechart.png")
+png("country_piechart.png", width=600, height=600)
 pie(sale_countries$Count, labels=sale_countries$Country,main="Sales by Country")
 dev.off()
 
