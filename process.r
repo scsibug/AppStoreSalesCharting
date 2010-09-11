@@ -28,7 +28,24 @@ colnames(sale_countries) <- c("Country", "Count")
 units_by_time <- aggregate(s_all$Units,FUN=sum,by=list(s_all$End.Date))
 colnames(units_by_time) <- c("End.Date", "Units")
 png("units_linechart.png", width=defaultChartDim, height=defaultChartDim)
-plot(units_by_time$End.Date, units_by_time$Units, type="b", ylab="Units", xlab="Period End Date")
+plot(units_by_time$End.Date,
+     units_by_time$Units,
+     type="b",
+     ylab="Units",
+     xlab="Period End Date",
+     main="Sales per period ending date")
+dev.off()
+
+# Cumulative Sales at each period-ending-date, overall.
+units_by_time <- aggregate(s_all$Units,FUN=sum,by=list(s_all$End.Date))
+colnames(units_by_time) <- c("End.Date", "Units")
+png("units_cumulative_linechart.png", width=defaultChartDim, height=defaultChartDim)
+plot(units_by_time$End.Date,
+     cumsum(units_by_time$Units),
+     type="b",
+     ylab="Units",
+     xlab="Period End Date",
+     main="Cumulative sales at each period ending date")
 dev.off()
 
 # Sales by period-ending-date, grouped by country.
