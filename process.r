@@ -48,26 +48,33 @@ plot(units_by_time$End.Date,
      main="Cumulative sales at each period ending date")
 dev.off()
 
-# Sales by period-ending-date, grouped by country.
+# Cumulative sales by period-ending-date, grouped by country.
 # Grouped either weekly or daily based on the original data provided.
 countries_by_time <- aggregate(s_all$Units,FUN=sum,by=list(s_all$Country.Code,s_all$End.Date))
 colnames(countries_by_time) <- c("Country", "End.Date", "Units")
-xrange <- range(countries_by_time$End.Date)
-yrange <- range(countries_by_time$Units)
-png("country_linechart.png", width=defaultChartDim, height=defaultChartDim)
-plot(xrange, yrange, type="n", ylab="Units", xlab="Period End Date")
 countries_by_time$Cf <- as.numeric(countries_by_time$Country)
 ncountries <- max(countries_by_time$Cf)
 colors <- rainbow(ncountries)
 linetype <- c(1:ncountries)
 plotchar <- seq(18,18+ncountries,1)
 countrylabels <- vector(mode="list")
+#find largest cumsum unit for a country:
+max_y <- 0
+for (i in 1:ncountries) {
+  country <- subset(countries_by_time, Cf==i)
+  csum <- sum(country$Units)
+  if (csum > max_y) {max_y <- csum}
+}
+xrange <- range(countries_by_time$End.Date)
+yrange <- range(c(0,max_y))
+png("country_cumulative_linechart.png", width=defaultChartDim, height=defaultChartDim)
+plot(xrange, yrange, type="n", ylab="Units", xlab="Period End Date")
 for (i in 1:ncountries) {
   country <- subset(countries_by_time, Cf==i)
   countrylabels <- append(countrylabels, toString(country$Country[1]))
-  lines(country$End.Date, country$Units,type="b", lwd=1.5,lty=linetype[i],col=colors[i],pch=plotchar[i])
+  lines(country$End.Date, cumsum(country$Units),type="b", lwd=1.5,lty=linetype[i],col=colors[i],pch=plotchar[i])
 }
-title("Sales by period ending date, grouped by country")
+title("cumulative sales by period ending date, grouped by country")
 legend(xrange[1],yrange[2], countrylabels, cex=0.8, col=colors, pch=plotchar, lty=linetype, title="Country")
 dev.off()
 
