@@ -44,11 +44,14 @@ ncountries <- max(countries_by_time$Cf)
 colors <- rainbow(ncountries)
 linetype <- c(1:ncountries)
 plotchar <- seq(18,18+ncountries,1)
+countrylabels <- vector(mode="list")
 for (i in 1:ncountries) {
   country <- subset(countries_by_time, Cf==i)
+  countrylabels <- append(countrylabels, toString(country$Country[1]))
   lines(country$End.Date, country$Units,type="b", lwd=1.5,lty=linetype[i],col=colors[i],pch=plotchar[i])
 }
 title("Sales by period ending date, grouped by country")
+legend(xrange[1],yrange[2], countrylabels, cex=0.8, col=colors, pch=plotchar, lty=linetype, title="Country")
 dev.off()
 
 # Sales by period-ending-date, grouped by currency.
@@ -64,11 +67,15 @@ ncurrencies <- max(currency_by_time$Cf)
 colors <- rainbow(ncurrencies)
 linetype <- c(1:ncurrencies)
 plotchar <- seq(18,18+ncurrencies,1)
+currlabels <- vector(mode="list")
 for (i in 1:ncurrencies) {
   currency <- subset(currency_by_time, Cf==i)
+  currlabels <- append(currlabels, toString(currency$Currency[1]))
   lines(currency$End.Date, currency$Units,type="b", lwd=1.5,lty=linetype[i],col=colors[i],pch=plotchar[i])
 }
 title("Sales by period ending date, grouped by currency")
+legend(xrange[1],yrange[2], currlabels, cex=0.8, col=colors, pch=plotchar, lty=linetype, title="Currency")
+
 dev.off()
 
 # Pie chart of overall sales volume grouped by currency
