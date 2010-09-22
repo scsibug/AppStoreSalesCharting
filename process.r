@@ -36,7 +36,7 @@ plot(units_by_time$End.Date,
      main="Sales per period ending date")
 dev.off()
 
-# Sales by Weekday
+# Total and Average Sales by Weekday
 units_by_weekday <- aggregate(s_all$Units,FUN=sum,by=list(weekdays(s_all$End.Date)))
 avg_units_by_weekday <- aggregate(s_all$Units,FUN=mean,by=list(weekdays(s_all$End.Date)))
 colnames(units_by_weekday) <- c("Weekday", "Units")
@@ -48,6 +48,17 @@ barplot(units_by_weekday$Units,
      ylab="Units",
      xlab="Day of the Week",
      main="Sales per Day of the Week")
+dev.off()
+# We take the same data used for the total, but divide by the number of weeks of data.
+# Assume entries are in chronological order
+dataset_timespan <- s_all$End.Date[nrow(s_all)] - s_all$End.Date[1]
+dataset_weeks <- as.numeric(dataset_timespan, units="weeks")
+png("weekday_avg_barchart.png", width=defaultChartDim, height=defaultChartDim)
+barplot(units_by_weekday$Units/dataset_weeks,
+     names.arg=units_by_weekday$Weekday,
+     ylab="Units",
+     xlab="Day of the Week",
+     main="Average Sales per Day of the Week")
 dev.off()
 
 # Cumulative Sales at each period-ending-date, overall.
