@@ -36,6 +36,20 @@ plot(units_by_time$End.Date,
      main="Sales per period ending date")
 dev.off()
 
+# Sales by Weekday
+units_by_weekday <- aggregate(s_all$Units,FUN=sum,by=list(weekdays(s_all$End.Date)))
+avg_units_by_weekday <- aggregate(s_all$Units,FUN=mean,by=list(weekdays(s_all$End.Date)))
+colnames(units_by_weekday) <- c("Weekday", "Units")
+colnames(avg_units_by_weekday) <- c("Weekday", "Units")
+weekday_table <- table(units_by_weekday$Units, avg_units_by_weekday$Units)
+png("weekday_barchart.png", width=defaultChartDim, height=defaultChartDim)
+barplot(units_by_weekday$Units,
+     names.arg=units_by_weekday$Weekday,
+     ylab="Units",
+     xlab="Day of the Week",
+     main="Sales per Day of the Week")
+dev.off()
+
 # Cumulative Sales at each period-ending-date, overall.
 units_by_time <- aggregate(s_all$Units,FUN=sum,by=list(s_all$End.Date))
 colnames(units_by_time) <- c("End.Date", "Units")
@@ -120,4 +134,3 @@ dev.off()
 png("country_piechart.png", width=defaultChartDim, height=defaultChartDim)
 pie(sale_countries$Count, labels=sale_countries$Country,main="Units sold by country")
 dev.off()
-
