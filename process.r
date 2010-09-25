@@ -81,6 +81,10 @@ plot(units_by_time$End.Date,
      main="Cumulative sales at each period ending date")
 lines(upgrade_units_by_time$End.Date, cumsum(upgrade_units_by_time$Units),type="b",lwd=1.5,lty=3,col=2,pch=3)
 legend("topleft",c("Free/Paid Apps","Updates"), col=c(1,2), lty=c(1,3), pch=c(1,3),title="Categories")
+text(units_by_time$End.Date,cumsum(units_by_time$Units),units_by_time$Units,pos=1)
+text(units_by_time$End.Date,cumsum(units_by_time$Units),cumsum(units_by_time$Units),pos=3)
+text(upgrade_units_by_time$End.Date,cumsum(upgrade_units_by_time$Units),upgrade_units_by_time$Units,pos=1)
+text(upgrade_units_by_time$End.Date,cumsum(upgrade_units_by_time$Units),cumsum(upgrade_units_by_time$Units),pos=3)
 dev.off()
 
 # Cumulative sales by period-ending-date, grouped by country.
