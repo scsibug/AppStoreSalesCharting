@@ -16,16 +16,22 @@ s_all <- read.table(filename, header=TRUE, sep="\t")
 s_all$Begin.Date <- as.Date(s_all$Begin.Date,"%m/%d/%Y")
 s_all$End.Date <- as.Date(s_all$End.Date,"%m/%d/%Y")
 
+# For most reports below, we only care about new downloads.  updates should be ignored.
+# Free/Paid Downloads
+s_dl <- subset(s_all, Product.Type.Identifier %in% c("1", "1F", "1T"))
+# Updates
+s_up <- subset(s_all, Product.Type.Identifier %in% c("7", "7F", "7T"))
+
 # Group by currency, summing units sold
-sale_currencies <- aggregate(s_all$Units,FUN=sum,by=list(s_all$Currency))
+sale_currencies <- aggregate(s_dl$Units,FUN=sum,by=list(s_dl$Currency))
 colnames(sale_currencies) <- c("Currency", "Count")
 
 # Group by country, summing units sold
-sale_countries <- aggregate(s_all$Units,FUN=sum,by=list(s_all$Country.Code))
+sale_countries <- aggregate(s_dl$Units,FUN=sum,by=list(s_dl$Country.Code))
 colnames(sale_countries) <- c("Country", "Count")
 
 # Sales per period-ending-date, overall.
-units_by_time <- aggregate(s_all$Units,FUN=sum,by=list(s_all$End.Date))
+units_by_time <- aggregate(s_dl$Units,FUN=sum,by=list(s_dl$End.Date))
 colnames(units_by_time) <- c("End.Date", "Units")
 png("units_linechart.png", width=defaultChartDim, height=defaultChartDim)
 plot(units_by_time$End.Date,
@@ -37,8 +43,8 @@ plot(units_by_time$End.Date,
 dev.off()
 
 # Total and Average Sales by Weekday
-units_by_weekday <- aggregate(s_all$Units,FUN=sum,by=list(weekdays(s_all$End.Date)))
-avg_units_by_weekday <- aggregate(s_all$Units,FUN=mean,by=list(weekdays(s_all$End.Date)))
+units_by_weekday <- aggregate(s_dl$Units,FUN=sum,by=list(weekdays(s_dl$End.Date)))
+avg_units_by_weekday <- aggregate(s_dl$Units,FUN=mean,by=list(weekdays(s_dl$End.Date)))
 colnames(units_by_weekday) <- c("Weekday", "Units")
 colnames(avg_units_by_weekday) <- c("Weekday", "Units")
 weekday_table <- table(units_by_weekday$Units, avg_units_by_weekday$Units)
@@ -51,7 +57,7 @@ barplot(units_by_weekday$Units,
 dev.off()
 # We take the same data used for the total, but divide by the number of weeks of data.
 # Assume entries are in chronological order
-dataset_timespan <- s_all$End.Date[nrow(s_all)] - s_all$End.Date[1]
+dataset_timespan <- s_dl$End.Date[nrow(s_dl)] - s_dl$End.Date[1]
 dataset_weeks <- as.numeric(dataset_timespan, units="weeks")
 png("weekday_avg_barchart.png", width=defaultChartDim, height=defaultChartDim)
 barplot(units_by_weekday$Units/dataset_weeks,
@@ -62,8 +68,10 @@ barplot(units_by_weekday$Units/dataset_weeks,
 dev.off()
 
 # Cumulative Sales at each period-ending-date, overall.
-units_by_time <- aggregate(s_all$Units,FUN=sum,by=list(s_all$End.Date))
+units_by_time <- aggregate(s_dl$Units,FUN=sum,by=list(s_dl$End.Date))
+upgrade_units_by_time <- aggregate(s_up$Units,FUN=sum,by=list(s_up$End.Date))
 colnames(units_by_time) <- c("End.Date", "Units")
+colnames(upgrade_units_by_time) <- c("End.Date", "Units")
 png("units_cumulative_linechart.png", width=defaultChartDim, height=defaultChartDim)
 plot(units_by_time$End.Date,
      cumsum(units_by_time$Units),
@@ -71,11 +79,13 @@ plot(units_by_time$End.Date,
      ylab="Units",
      xlab="Period End Date",
      main="Cumulative sales at each period ending date")
+lines(upgrade_units_by_time$End.Date, cumsum(upgrade_units_by_time$Units),type="b",lwd=1.5,lty=3,col=2,pch=3)
+legend("topleft",c("Free/Paid Apps","Updates"), col=c(1,2), lty=c(1,3), pch=c(1,3),title="Categories")
 dev.off()
 
 # Cumulative sales by period-ending-date, grouped by country.
 # Grouped either weekly or daily based on the original data provided.
-countries_by_time <- aggregate(s_all$Units,FUN=sum,by=list(s_all$Country.Code,s_all$End.Date))
+countries_by_time <- aggregate(s_dl$Units,FUN=sum,by=list(s_dl$Country.Code,s_dl$End.Date))
 colnames(countries_by_time) <- c("Country", "End.Date", "Units")
 countries_by_time$Cf <- as.numeric(countries_by_time$Country)
 ncountries <- max(countries_by_time$Cf)
@@ -105,7 +115,7 @@ dev.off()
 
 # Cumulative ales by period-ending-date, grouped by currency.
 # Grouped either weekly or daily based on the original data provided.
-currency_by_time <- aggregate(s_all$Units,FUN=sum,by=list(s_all$Currency,s_all$End.Date))
+currency_by_time <- aggregate(s_dl$Units,FUN=sum,by=list(s_dl$Currency,s_dl$End.Date))
 colnames(currency_by_time) <- c("Currency", "End.Date", "Units")
 
 
